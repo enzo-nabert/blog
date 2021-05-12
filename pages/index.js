@@ -4,20 +4,18 @@ import Link from 'next/link'
 import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-export default function Home({ posts }) {
+export default function Home({ data }) {
   return (
    <div>
      <Head>
        <title>BLOG</title>
      </Head>
      <ul>
-        {posts.map((p) => 
-          <Link href={`/blog/${p.id}`}>
+          <Link href={`/blog/${data.id}`}>
             <a>
-              <li>{p.id} - {p.title}</li>
+              <li>{data.id} - {data.titre}</li>
             </a>
           </Link>
-        )}
      </ul>
    </div>
   )
@@ -44,11 +42,13 @@ export async function getStaticProps(){
 
   const { data } = await client.query({
     query: gql`
-      allModelmultiples {
-        id
-        titre
-        float
-        integer
+      query {
+        allModelmultiples {
+          id
+          titre
+          float
+          integer
+        }
       }
     `
   });
